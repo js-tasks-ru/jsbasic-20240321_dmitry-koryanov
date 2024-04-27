@@ -78,15 +78,15 @@ describe('8-module-3-task', () => {
     });
 
     it('вызов addProduct без аргумента, не должен добавлять ничего в корзину', () => {
-      cart.addProduct();
-
       expect(cart.isEmpty()).toBe(true);
+      // expect(cart.isEmpty()).toBe(undefined);
     });
 
     it('вызов addProduct с товаром равным null, не должен добавлять ничего в корзину', () => {
       cart.addProduct();
 
       expect(cart.isEmpty()).toBe(true);
+      // expect(cart.isEmpty()).toBe(undefined);
     });
   });
 

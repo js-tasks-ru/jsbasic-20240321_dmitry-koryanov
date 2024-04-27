@@ -1,41 +1,44 @@
+import createElement from '../../assets/lib/create-element.js';
+
 export default class Modal {
+
+  #modal;
+
   constructor() {
-    this.open();
+    this.#modal = this.#createElem();
   }
 
   open() {
-    let modalWindow = this.#createElem();
-
-    document.body.append(modalWindow);
+    document.body.append(this.#modal);
     document.body.classList.add('is-modal-open');
-    modalWindow.querySelector('.modal__close').addEventListener('click', this.close);
+    this.#modal.querySelector('.modal__close').addEventListener('click', this.close);
     document.addEventListener('keydown', this.#keyDownEventListener);
   }
 
   setTitle(title) {
-    document.body.querySelector('.modal__title').textContent = title;
+    this.#modal.querySelector('.modal__title').textContent = title;
   }
 
   setBody(elem) {
-    document.body.querySelector('.modal__body').innerHTML = elem.outerHTML;
+    this.#modal.querySelector('.modal__body').innerHTML = elem.outerHTML;
   }
 
   close = () => {
     document.body.classList.remove('is-modal-open');
-    document.body.querySelector('.modal').remove();
+    this.#modal.remove();
     document.removeEventListener('keydown', this.#keyDownEventListener);
   };
 
   #keyDownEventListener = (event) => {
     if (event.code === 'Escape') {
-      this.close;
+      this.close();
     }
   };
 
   #createElem() {
-    let elem = document.createElement('div');
-    elem.classList.add('modal');
-    elem.insertAdjacentHTML("afterbegin", `
+    let elem = createElement( `
+      <!--Корневой элемент Modal-->
+      <div class="modal">
         <!--Прозрачная подложка перекрывающая интерфейс-->
         <div class="modal__overlay"></div>
 
@@ -53,7 +56,8 @@ export default class Modal {
           <div class="modal__body">
           </div>
         </div>
-        `);
+      </div>
+    `);
 
     return elem;
   }
