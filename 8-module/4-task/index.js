@@ -141,22 +141,28 @@ export default class Cart {
   onProductUpdate(cartItem) {
     this.cartIcon.update(this);
 
-    if (!document.body.querySelector('.is-modal-open')) {
+    if (!document.body.classList.contains('is-modal-open')) {
       return;
     }
 
     if (this.cartItems.length === 0) {
       this.modal.close();
+      return;
     }
 
+    // this.modal.elem.addEventListener('modal-close', () => {
+    //   this.modal.elem.remove();
+    // });
+    let modalBody = document.querySelector('.modal__body');
+
     // Элемент, который хранит количество товаров с таким productId в корзине
-    let productCount = this.modal.querySelector(`[data-product-id="${cartItem.product.id}"].cart-counter__count`);
+    let productCount = modalBody.querySelector(`[data-product-id="${cartItem.product.id}"] .cart-counter__count`);
 
     // Элемент с общей стоимостью всех единиц этого товара
-    let productPrice = this.modal.querySelector(`[data-product-id="${cartItem.product.id}"].cart-product__price`);
+    let productPrice = modalBody.querySelector(`[data-product-id="${cartItem.product.id}"] .cart-product__price`);
 
     // Элемент с суммарной стоимостью всех товаров
-    let infoPrice = this.modal.querySelector(`.cart-buttons__info-price`);
+    let infoPrice = modalBody.querySelector(`.cart-buttons__info-price`);
 
     productCount.textContent = cartItem.count;
     productPrice.textContent = `€${(cartItem.product.price * cartItem.count).toFixed(2)}`;
@@ -179,15 +185,16 @@ export default class Cart {
       .then(response => {
         if (response.ok) {
           this.modal.setTitle('Success!');
-          this.modal.setBody(`
-              <div class="modal__body-inner">
-                <p>
-                  Order successful! Your order is being cooked :) <br>
-                  We’ll notify you about delivery time shortly.<br>
-                  <img src="/assets/images/delivery.gif">
-                </p>
-              </div>
+          let elem = createElement(`
+            <div class="modal__body-inner">
+                  <p>
+                    Order successful! Your order is being cooked :) <br>
+                    We’ll notify you about delivery time shortly.<br>
+                    <img src="/assets/images/delivery.gif">
+                  </p>
+            </div>
           `);
+          this.modal.setBody(elem);
           this.cartItems = [];
           this.cartIcon.update(this);
         } else {

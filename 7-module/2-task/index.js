@@ -20,7 +20,9 @@ export default class Modal {
   }
 
   setBody(elem) {
-    this.#modal.querySelector('.modal__body').innerHTML = elem.outerHTML;
+    // this.#modal.querySelector('.modal__body').innerHTML = elem.outerHTML;
+    this.#modal.querySelector('.modal__body').innerHTML = '';
+    this.#modal.querySelector('.modal__body').append(elem);
   }
 
   close = () => {

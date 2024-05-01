@@ -43,7 +43,7 @@ export default class RibbonMenu {
       ribbonMenu.querySelector('.ribbon__arrow_left').classList.toggle('ribbon__arrow_visible',
         ribbonInner.scrollLeft > 0);
       ribbonMenu.querySelector('.ribbon__arrow_right').classList.toggle('ribbon__arrow_visible',
-        ribbonInner.scrollLeft < ribbonInner.scrollWidth - ribbonInner.clientWidth);
+        ribbonInner.scrollWidth - ribbonInner.clientWidth - ribbonInner.scrollLeft < 1);
     });
 
     ribbonInner.addEventListener('click', this.#chooseCategory);
